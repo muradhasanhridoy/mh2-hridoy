@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Murad — Personal Portfolio</title>
+<style>
+:root{
+  --accent:#0026ff;
+  --accent2:#0044ff;
+  --bg:#0f172a;
+  --card:#0b1220;
+  --glass: rgba(255,255,255,0.06);
+  --glass-2: rgba(255,255,255,0.03);
+  --text:#e6eef8;
+  --muted:#9fb0c8;
+  --radius:16px;
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  margin:0;
+  background:linear-gradient(180deg,#071127 0%, #071a2b 100%);
+  color:var(--text);
+  overflow-x:hidden;
+  min-height:100vh;
+}
+
+/* Fade-in-up for general text/cards */
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Soft Neon Glitch Text Animation */
+@keyframes glitch {
+  0% { text-shadow: 1px 0 #ff0000, -1px 0 #4000ff, 0 0 5px #10ffaf; }
+  20% { text-shadow: -1px 0 #ff0000, 1px 0 #a78bfa, 0 0 8px #c8ff00; }
+  40% { text-shadow: 1px 0 #ff0000, -1px 0 #a78bfa, 0 0 10px #22d3ee; }
+  60% { text-shadow: -1px 0 #ff0000, 1px 0 #a78bfa, 0 0 5px #4fd1c5; }
+  80% { text-shadow: 1px 0 #ff0000, -1px 0 #4000ff, 0 0 8px #38bdf8; }
+  100% { text-shadow: 0 0 12px #ff0800, 0 0 15px #22d3ee; }
+}
+
+/* Subtle Flicker Effect */
+@keyframes flicker {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0.8; }
+}
+
+/* Cover */
+.header{
+  width:100%;
+  height:550px;
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+.header img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:brightness(0.5);
+  transition: transform 0.6s ease;
+}
+.header h1{
+  position:absolute;
+  color:#0ff;
+  font-size:5rem;
+  z-index:2;
+  opacity:0;
+  animation:fadeInUp 1s forwards, glitch 0.2s infinite;
+  animation-delay:0.3s;
+  font-family: monospace;
+}
+.header h2 {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translateX(-50%);
+  color:#f0f;
+  font-size:3rem;
+  text-shadow: 0 0 20px #ff2d2d,0 0 30px #ff2d2d;
+  opacity:0;
+  animation:fadeInUp 1s forwards, glitch 0.3s infinite;
+  animation-delay:0.6s;
+  font-family: monospace;
+}
+
+/* Container */
+.container{
+  max-width:1200px;
+  margin:28px auto;
+  padding:0 18px;
+  display:flex;
+  flex-direction:column;
+  gap:28px;
+}
+
+/* Card */
+.card{
+  position:relative;
+  background:linear-gradient(180deg,var(--glass), var(--glass-2));
+  border-radius:var(--radius);
+  padding:18px;
+  backdrop-filter: blur(6px);
+  box-shadow:0 6px 30px rgba(2,6,23,0.6);
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  opacity:0;
+  transform:translateY(20px);
+  animation:fadeInUp 0.8s forwards;
+  overflow:hidden;
+  transition: transform 0.4s ease;
+}
+.card:hover{transform: translateY(-5px);}
+.card::before{
+  content:'';
+  position:absolute;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:linear-gradient(120deg, rgba(255,255,255,0.05), rgba(255,255,255,0.2), rgba(255,255,255,0.05));
+  pointer-events:none;
+  border-radius: var(--radius);
+}
+
+/* Grids */
+.about, .skills-section{
+      display:grid;
+      gap:18px;
+      align-items:start;
+    }
+.skills-section h3{
+      font-size:2rem;
+      margin-top:0;
+      color:var(--text);
+      text-shadow:0 0 8px #06b6d4;
+    }
+    .about{grid-template-columns:1fr 300px; align-items:stretch;}
+    .skills-section.mirror{
+      grid-template-columns:550px 1fr; 
+      align-items:stretch;}
+@media(max-width:860px){
+  .about, .skills-section, .skills-section.mirror, .gallery-grid, .chat-gallery-section{
+    grid-template-columns:1fr;
+    grid-template-rows:auto auto;
+  }
+}
+
+/* Profile images */
+.profile-img{aspect-ratio:1/1; position:relative;}
+.profile-img img{
+  width: 300px;
+  height: 300px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px #06b6d4, 0 0 20px #0ea5a9, 0 0 30px #06b6d4;
+  transition: transform 0.5s ease;
+  cursor: pointer;
+}
+.profile-img:hover img{transform: scale(1.05);}
+
+/* Text */
+.about h2, .skills-section h3, .gallery-section h2{
+  margin-top:0;
+  text-shadow:0 0 6px #06b6d4;
+}
+.about p, .skills-section p{color:var(--muted); line-height:1.6; white-space:pre-line;}
+
+/* Gallery */
+.gallery-section{display:flex; flex-direction:column; gap:18px;}
+.gallery-section h2{
+  font-size:2rem; text-align:center; color:var(--text);
+  opacity:0; transform:translateY(20px);
+  animation:fadeInUp 0.8s forwards; animation-delay:0.2s;
+  text-shadow:0 0 10px #06b6d4,0 0 20px #0ea5a9;
+}
+.gallery-grid{display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px;}
+.scroll-frame{
+  aspect-ratio:16/9; border-radius:var(--radius);
+  overflow-y:auto; background:var(--glass-2);
+  border:2px solid var(--glass); scrollbar-width:thin;
+  opacity:0; transform:translateY(20px);
+  animation:fadeInUp 0.8s forwards;
+  position:relative; transition: transform 0.4s ease;
+}
+.scroll-frame:hover{transform: scale(1.02);}
+.scroll-frame img{width:100%; height:auto; display:block; border-radius:12px; transition: transform 0.4s ease;}
+.scroll-frame:hover img{transform: scale(1.05);}
+
+/* Chat Section */
+.chat-gallery-section {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  margin-top: 40px;
+  flex-wrap: wrap;
+}
+
+/* MHH AI */
+.chat-container {
+  background: #1a1a2e;
+  width: 420px;
+  height: 600px;
+  border-radius: 20px;
+  box-shadow: 0 0 25px #0026ff;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  font-family: 'Share Tech Mono', monospace;
+}
+.chat-header {
+  background: #0f172a;
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #00fff2;
+}
+.chat-header img {
+  width: 45px; height: 45px;
+  border-radius: 50%;
+  margin-right: 15px;
+  cursor: pointer;
+  border: 2px solid #00fff2;
+  transition: 0.3s;
+}
+.chat-header img:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px #00fff2;
+}
+.chat-header h2 {
+  margin: 0;
+  font-size: 18px;
+  text-shadow: 0 0 10px #00ff55;
+}
+/* Chat Card */
+.chat-card{
+  width:100%;
+  max-width:880px;
+  margin:0 auto 20px;
+  background: linear-gradient(180deg, rgba(0,255,242,0.1), rgba(0,255,242,0.05));
+  border-radius:16px;
+  padding:15px 20px;
+  text-align:center;
+  font-size:1.8rem;
+  font-weight:bold;
+  color:#00ff00;
+  text-shadow:0 0 8px #000000, 0 0 15px #3306d4;
+  backdrop-filter: blur(8px);
+  box-shadow:0 4px 20px rgba(67, 107, 20, 0.884);
+  animation: fadeInUp 0.8s forwards;
+}
+
+
+.chat-body {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #0f0f1a;
+}
+.chat-input {
+  display: flex;
+  border-top: 1px solid #00fff2;
+}
+.chat-input input {
+  flex: 1;
+  padding: 15px;
+  background: #0f172a;
+  border: none;
+  color: #00fff2;
+  font-size: 15px;
+  outline: none;
+}
+.chat-input button {
+  padding: 15px 20px;
+  background: #00fff2;
+  border: none;
+  color: #0f172a;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.chat-input button:hover { background: #00c4b3; }
+.message {
+  max-width: 80%;
+  padding: 10px 15px;
+  border-radius: 15px;
+  word-wrap: break-word;
+  animation: fadeIn 0.3s ease;
+}
+.user { align-self: flex-end; background: #00fff2; color: #0f172a; border-bottom-right-radius: 0; }
+.bot { align-self: flex-start; background: #0f172a; border: 1px solid #00fff2; border-bottom-left-radius: 0; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.typing {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: #00fff2;
+  animation: blink 1s infinite;
+  display: inline-block;
+  margin-left: 5px;
+}
+@keyframes blink { 0%,50%,100%{opacity:0;}25%,75%{opacity:1;} }
+
+/* Mira AI */
+.mira-chat {
+  width: 370px;
+  height: 600px;
+  background: rgba(20,20,20,0.9);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(255,105,180,0.7), inset 0 0 12px rgba(255,105,180,0.2);
+  border: 1px solid rgb(226, 13, 216);
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+.mira-chat .chat-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #1a001a, #000);
+  padding: 12px;
+  color: hotpink;
+  cursor: pointer;
+  font-weight: bold;
+  text-shadow: 0 0 10px hotpink;
+  border-bottom: 1px solid hotpink;
+}
+.mira-chat .chat-header img {
+  width: 38px; height: 38px;
+  border-radius: 50%; border: 2px solid hotpink;
+}
+.mira-chat .messages {
+  flex: 1; padding: 12px;
+  overflow-y: auto;
+  display: flex; flex-direction: column; gap: 10px;
+  background: rgba(0,0,0,0.85);
+}
+.mira-chat .message {
+  max-width:75%; padding:10px 14px;
+  border-radius:14px; line-height:1.4; font-size:14px;
+  position:relative; word-wrap:break-word;
+}
+.user-message { align-self:flex-end; background:linear-gradient(135deg,#ff99cc,#ff4da6); color:#000; border-bottom-right-radius:0; box-shadow:0 0 10px hotpink; }
+.ai-message { align-self:flex-start; background: rgba(40,40,40,0.9); color:hotpink; border-bottom-left-radius:0; border:1px solid hotpink; box-shadow:0 0 12px rgba(255,105,180,0.5); }
+.typing { width:12px; height:12px; margin-right:4px; border-radius:50%; background:hotpink; display:inline-block; animation: blink 1s infinite; }
+.typing:nth-child(2){animation-delay:0.2s;}
+.typing:nth-child(3){animation-delay:0.4s;}
+.mira-chat .input-container { display:flex; border-top:1px solid hotpink; background:#111; padding:6px; }
+.mira-chat .input-container input { flex:1; padding:11px; border:none; outline:none; border-radius:20px; font-size:14px; background:#000; color:hotpink; box-shadow:inset 0 0 8px hotpink; }
+.mira-chat .input-container button { background:hotpink; border:none; color:#000; padding:10px 15px; margin-left:6px; border-radius:50%; cursor:pointer; transition:0.3s; font-weight:bold; box-shadow:0 0 12px hotpink; }
+.mira-chat .input-container button:hover { background:#ff4da6; box-shadow:0 0 18px hotpink; }
+
+/* Footer */
+footer{
+  max-width:1200px;
+  margin:40px auto 60px;
+  padding:0 18px;
+  color:var(--muted);
+  font-size:13px;
+  text-align:center;
+}
+
+.mh-portal-section .card{
+  margin-top: 30px;
+  padding: 20px;
+  background: linear-gradient(180deg, rgba(0,255,242,0.05), rgba(0,255,242,0.02));
+  border:1px solid rgba(0,255,242,0.2);
+  border-radius: 16px;
+  box-shadow: 0 6px 30px rgba(0,255,242,0.1);
+}
+
+.terminal{ min-height:260px; background:linear-gradient(180deg, rgba(0,0,0,0.7), rgba(2,2,2,0.9)); padding:14px; border-radius:14px; font-family: monospace; color:#0ff; overflow-y:auto;}
+.term-bar .dot{ width:10px; height:10px; border-radius:50%; background:#0f172a; box-shadow: inset 0 0 0 1px #0ff; }
+.actions .btn{ background: #0ff; color:#0f172a; padding:8px 12px; border-radius:8px; font-weight:bold; cursor:pointer; margin-right:6px; }
+
+.glitch{
+  position:relative; display:inline-block; font-weight:800; letter-spacing:.06em;
+  font-size:clamp(28px, 7vw, 64px); text-transform:uppercase; color:var(--neon);
+  text-shadow: 0 0 6px rgba(54,255,138,.8), 0 0 18px rgba(54,255,138,.3);
+}
+.glitch::before, .glitch::after{
+  content:attr(data-text); position:absolute; left:0; top:0; width:100%; height:100%;
+  clip-path: polygon(0 2%,100% 2%,100% 28%,0 28%);
+}
+.glitch::before{ left:2px; text-shadow: -2px 0 rgba(0,255,150,.7); animation:gl1 3s infinite linear alternate; }
+.glitch::after{ left:-2px; text-shadow: 2px 0 rgba(0,200,120,.7); animation:gl2 2.2s infinite linear alternate; }
+@keyframes gl1{
+  0%{ clip-path: polygon(0 2%,100% 2%,100% 14%,0 14%); }
+  50%{ clip-path: polygon(0 52%,100% 52%,100% 64%,0 64%); }
+  100%{ clip-path: polygon(0 82%,100% 82%,100% 92%,0 92%); }
+}
+@keyframes gl2{
+  0%{ clip-path: polygon(0 8%,100% 8%,100% 22%,0 22%); }
+  50%{ clip-path: polygon(0 34%,100% 34%,100% 44%,0 44%); }
+  100%{ clip-path: polygon(0 70%,100% 70%,100% 78%,0 78%); }
+}
+
+/* Order Section */
+.order-section{
+  max-width:1200px;
+  margin:50px auto;
+  padding:0 18px;
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap:20px;
+}
+
+.order-card{
+  background: linear-gradient(180deg, rgba(0,255,242,0.05), rgba(0,255,242,0.02));
+  border:1px solid rgba(0,255,242,0.2);
+  border-radius:16px;
+  padding:20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  box-shadow: 0 6px 30px rgba(0,255,242,0.1);
+  transition: transform 0.5s, box-shadow 0.5s;
+  opacity:0;
+  transform: translateY(30px);
+  animation: fadeUp 0.8s forwards;
+}
+.order-card:nth-child(1){animation-delay:0.1s;}
+.order-card:nth-child(2){animation-delay:0.2s;}
+.order-card:nth-child(3){animation-delay:0.3s;}
+.order-card:nth-child(4){animation-delay:0.4s;}
+.order-card:nth-child(5){animation-delay:0.5s;}
+.order-card:nth-child(6){animation-delay:0.6s;}
+.order-card:nth-child(7){animation-delay:0.7s;}
+.order-card:nth-child(8){animation-delay:0.8s;}
+
+@keyframes fadeUp{
+  0%{opacity:0; transform: translateY(30px);}
+  100%{opacity:1; transform: translateY(0);}
+}
+
+.order-card:hover{
+  transform: translateY(-8px);
+  box-shadow: 0 15px 40px rgba(0, 255, 42, 0.842);
+  border:1px solid rgb(255, 0, 0);
+}
+
+.order-card h3{
+  margin-bottom:12px;
+  font-size:1.4rem;
+  color:#00fff2;
+  text-shadow:0 0 6px #00fff2, 0 0 12px #06b6d4;
+}
+
+.order-card p{
+  flex:1;
+  font-size:0.95rem;
+  color:var(--muted);
+  margin-bottom:15px;
+}
+
+.order-card .price{
+  font-weight:bold;
+  margin-bottom:10px;
+  color:#0ff;
+  font-size:1.1rem;
+  text-shadow:0 0 6px #00fff2;
+}
+
+.order-card button{
+  padding:10px 15px;
+  border:none;
+  background:#0ff;
+  color:#0f172a;
+  font-weight:bold;
+  border-radius:12px;
+  cursor:pointer;
+  transition:0.4s, box-shadow 0.4s;
+  box-shadow: 0 0 10px #00fff2, 0 0 20px rgba(0,255,242,0.3);
+}
+.order-card button:hover{
+  background:#fbff04;
+  box-shadow: 0 0 15px #00fff2, 0 0 30px rgba(0,255,242,0.6), 0 0 20px #06b6d4;
+  transform: scale(1.05);
+}
+#mainProfilePic {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow:0 0 10px #06b6d4, 0 0 20px #0ea5a9, 0 0 30px #06b6d4;
+  transition: transform 0.5s ease;
+}
+
+      .wrap{
+        max-width:900px;
+        margin:10px auto;
+        padding:20px;
+        border:2px dashed #0ff;
+        border-radius:12px;
+      }
+      label{
+        display:block;
+        margin-top:12px;
+      }
+  
+      input[type=password]{
+        width:100%;
+        padding:10px;
+        margin-top:6px;
+        background:#111;
+        border:1px solid #0ff;
+        color:rgb(0, 255, 34);
+        border-radius:6px;
+      }
+      button{
+        margin-top:10px;
+        padding:8px 12px;
+        background:#0ff;
+        border:none;
+        color:#000;
+        font-weight:bold;
+        cursor:pointer;
+        border-radius:6px;
+      }
+      .meter{
+        height:14px;
+        background:#111;
+        border:1px solid #0ff;
+        border-radius:12px;
+        margin-top:8px;
+        overflow:hidden;
+        position:relative;
+      }
+      .meter>i{
+        display:block;
+        height:100%;
+        width:0;
+        background:#0f0;
+        transition:width .25s;
+      }
+      .unlock{
+        position:absolute;
+        top:-25px;
+        left:0;
+        color:#0f0;
+        font-weight:bold;
+        opacity:0;
+        transition:all 0.5s ease;
+      }
+      #finalMessage{
+        font-size:2rem;
+        font-weight:bold;
+        color:#ff0000;
+        text-align:center;
+        margin:10px 0;
+        text-shadow:0 0 20px #ff0000,0 0 40px #ff0000;animation:pulse 1s infinite alternate;
+      }
+      @keyframes pulse{
+        0%{text-shadow:0 0 20px #ff0000,0 0 40px #ff0000;transform:scale(1);}
+        50%{text-shadow:0 0 40px #ff0000,0 0 60px #ff0000;transform:scale(1.1);}
+        100%{text-shadow:0 0 20px #ff0000,0 0 40px #ff0000;transform:scale(1);}
+      }
+
+/* Profile flip container */
+#profileContainer {
+  position: relative;
+  width: 250px;
+  height: 250px;
+  perspective: 1000px;
+  cursor: pointer;
+}
+
+#profileContainer img.front {
+  width: 510px;
+  height: 510px;
+  border-radius: 12px;
+  display: block;
+  backface-visibility: hidden;
+  transition: transform 0.6s;
+}
+
+#profileContainer 
+      .login-card {
+        position: absolute;
+        top: 102%;
+        left: 102%;
+        width: 510px;
+        height: 510px;
+        transform: translate(-50%,-50%) rotateY(180deg);
+        backface-visibility: hidden;
+        transition: transform 0.6s;
+      }
+ #profileContainer.btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      background: #00ff00;
+      color: black;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+/* Flip state */
+#profileContainer.flip .login-card {
+  transform: translate(-50%,-50%) rotateY(0deg);
+}
+
+/* Login Card overrides (smaller to fit) */
+.login-card {
+  background: rgba(0, 20, 0, 0.85);
+  border: 2px solid #00ff00;
+  border-radius: 12px;
+  padding: 12px;
+  box-sizing: border-box;
+  color: #00ff00;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+
+/* Matrix canvas overlay */
+#matrix {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ensure header content above canvas */
+.header, .container { position: relative; z-index: 2; }
+
+
+</style>
+</head>
+<body>
+
+<!-- Matrix canvas -->
+<canvas id="matrix"></canvas>
+
+<header class="header">
+  <img src="Ai.jfif" alt="Cover">
+  <h1 class="glitch" data-text="Murad Hasan Hridoy">Murad Hasan Hridoy</h1>
+  <h2 class="processing" data-text="Personal Website">Personal Website</h2>
+</header>
+
+<main class="container">
+  <section class="about">
+    <div class="card">
+      <h2>About Me</h2>
+      <p>My name is Murad Hasan Hridoy.
+I am 20 years old, and I am from Sylhet, Bangladesh.
+I am a passionate learner with a strong interest in IT. I enjoy exploring new technologies, understanding systems, and applying my knowledge in web development, digital marketing, programming, and AI.
+I am constantly seeking opportunities to improve my skills and take on challenging projects.
+Collaborating with like-minded individuals motivates me to think creatively and innovate.
+In the future, I aspire to contribute to impactful tech solutions that can benefit society.</p>
+    </div>
+
+    <img src="MURAD HASAN HRIDOY.jpg" id="mainProfilePic" alt="Profile">
+  </section>
+
+  <section class="skills-section mirror">
+    <div id="profileContainer">
+      <img class="front" src="CADD.jpg" alt="Profile">
+      <div class="login-card">
+        <h2> Web Hidden Door </h2>
+        <input type="text" placeholder="Username" required>
+        <input type="password" placeholder="Password" required>
+        <button>ENTER</button>
+        <p><a href="#" style="color:#ff00bf; text-decoration:none;">Forgot Access Key?</a></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Skills</h3>
+      <b>Office Applications:</b> I am proficient in Microsoft Word, Excel, and PowerPoint, which allow me to efficiently create professional documents, analyze data, and design impactful presentations.<br>
+      <b>Digital Marketing:</b> I have experience in SEO, Branding, and Content Creation, enabling me to effectively promote products, enhance brand presence, and develop engaging marketing content online.<br>
+      <b>Programming:</b> I am skilled in Java, Python, and C++, which strengthens my abilities in software development, logical problem-solving, and algorithm design.<br>
+      <b>AI & ML:</b> I have foundational knowledge in Basic Machine Learning and Natural Language Processing (NLP), which helps me approach data-driven problems and develop intelligent solutions.<br>
+      <b>Web Design:</b> I can design responsive and user-friendly websites using HTML, CSS, JavaScript, and Bootstrap, creating engaging online experiences.<br><br>
+    </div>
+  </section>
+
+  <section class="gallery-section">
+    <div class="card"><h2>My Work Samples</h2></div>
+    <div class="gallery-grid">
+      <div class="scroll-frame"><img src="Web 1.jfif" alt="Web 1"></div>
+      <div class="scroll-frame"><img src="Web 2.jfif" alt="Web 2"></div>
+      <div class="scroll-frame"><img src="Web 3.jfif" alt="Web 3"></div>
+      <div class="scroll-frame"><img src="web 5.jfif" alt="Web 5"></div>
+      <div class="scroll-frame"><img src="web6.jfif" alt="Web 6"></div>
+      <div class="scroll-frame"><img src="web 8.jfif" alt="Web 8"></div>
+      <div class="scroll-frame"><img src="web 4 (1).jfif" alt="Web 4"></div>
+      <div class="scroll-frame"><img src="web 7.jfif" alt="Web 7"></div>
+      <div class="scroll-frame"><img src="web 4 (5).jfif" alt="Web 4-5"></div>
+    </div>
+  </section>
+
+  <!-- CHAT CARD -->
+  <div class="chat-card">
+    <h2>Chat My Personal AI</h2>
+  </div>
+
+  <section class="chat-gallery-section">
+    <!-- MHH AI Chat -->
+    <div class="chat-container">
+      <div class="chat-header">
+        <img src="MURAD HASAN HRIDOY.jpg" id="profilePic" alt="Profile">
+        <h2>MHH AI Assistant</h2>
+      </div>
+      <div class="chat-body" id="chatBody">
+        <div class="bot message">Hello! I am MHH AI — your personal tech assistant <span class="typing"></span></div>
+      </div>
+      <div class="chat-input">
+        <input type="text" id="userInput" placeholder="Type your message..." />
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+
+    <!-- Mira AI Chat -->
+    <div class="mira-chat">
+      <div class="chat-header" id="profileBtn">
+        <img src="Mira.jpg" alt="Profile" id="profileImg">
+        <h2>Mira</h2>
+      </div>
+      <div class="messages" id="chatContainer"></div>
+      <div class="input-container">
+        <input type="text" id="miraInput" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendMiraMessage();">
+        <button onclick="sendMiraMessage()">➤</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="mh-portal-section">
+    <div class="card">
+      <h2>MH Portal</h2>
+      <div class="grid">
+        <!-- Interactive Terminal -->
+        <section class="card span-7">
+          <h3>Interactive Terminal</h3>
+          <div class="terminal" id="portalTerminal">
+            <div class="term-bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+            <div class="term-content" id="portalTermContent"></div>
+            <div class="actions">
+              <button class="btn" id="portalRun">▶ Run Diagnostics</button>
+              <button class="btn" id="portalClear">⟲ Clear</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- System Status -->
+        <section class="card span-5">
+          <h3>System Status</h3>
+          <div class="list">
+            <div class="row"><span class="k">NODE</span><span class="v" id="portalNode">mh2-ai</span></div>
+            <div class="row"><span class="k">IP</span><span class="v" id="portalIP">127.0.0.1</span></div>
+            <div class="row"><span class="k">UPTIME</span><span class="v" id="portalUptime">00:00:00</span></div>
+            <div class="row"><span class="k">ENTROPY</span><span class="v" id="portalEntropy">42%</span></div>
+            <div class="row"><span class="k">BUILD</span><span class="v">v1.0.0-</span></div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="card">
+      <h1 class="glitch" data-text="MH2 Services MH HRIDOY"> MH2 Services </h1>
+      <div class="tagline" id="tagline"><span class="cursor"></span></div>
+    </div>
+  </section>
+
+  <section class="order-section">
+    <div class="order-card">
+      <h3>Static Website Design</h3>
+      <p>Professional one-page or portfolio websites with elegant modern design.</p>
+      <div class="price">Starting at $50</div>
+      <button>Customize Now</button>
+    </div>
+    <div class="order-card">
+      <h3>Dynamic Website Development</h3>
+      <p>Powerful, database-driven sites with admin panel and full backend support.</p>
+      <div class="price">Starting at $120</div>
+      <button>Customize Now</button>
+    </div>
+    <div class="order-card">
+      <h3>AI Assistant</h3>
+      <p>Custom AI chatbot or virtual assistant powered by GPT and voice control.</p>
+      <div class="price">Starting at $150</div>
+      <button>Customize Now</button>
+    </div>
+    <div class="order-card">
+      <h3>AI Girlfriend Chatbot</h3>
+      <p>Personalized emotional AI companion with memory and smart responses.</p>
+      <div class="price">Starting at $180</div>
+      <button>Customize Now</button>
+    </div>
+    <div class="order-card">
+      <h3>AI Agent</h3>
+      <p>Task automation agents for business, trading, or customer support systems.</p>
+      <div class="price">Starting at $200</div>
+      <button>Customize Now</button>
+    </div>
+    <div class="order-card">
+      <h3>SEO Optimization</h3>
+      <p>Improve your website ranking on Google and increase organic traffic with advanced SEO strategies.</p>
+      <div class="price">Starting at $80</div>
+      <button>Customize Now</button>
+    </div>
+    <div class="order-card">
+      <h3>CMS Web Development</h3>
+      <p>Custom CMS solutions for managing your website content easily.</p>
+      <div class="price">Starting at $130</div>
+      <button>Customize Now</button>
+    </div>
+    <div class="order-card">
+      <h3>Mobile App Development</h3>
+      <p>Create cross-platform mobile applications for iOS and Android with modern UI/UX.</p>
+      <div class="price">Starting at $250</div>
+      <button>Customize Now</button>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <label>Enter password:</label>
+      <input id="pwd" type="password" placeholder="Try: 123456, password, Hridoy@2025!" />
+      <div class="meter"><i id="bar"></i><div id="unlock" class="unlock">UNLOCKED!</div></div>
+      <div class="info">Strength: <span id="strength">—</span> | Entropy: <span id="entropy">—</span> bits | Crack time: <span id="crack">—</span></div>
+      <button id="toggle">Show/Hide</button>
+      <button id="generate">Generate Strong</button>
+      <button id="clear">Clear</button>
+      <button id="okBtn">OK</button>
+    </div>
+
+    <!-- Final message -->
+    <div id="finalMessage"></div>
+
+    <div id="console"></div>
+    <div class="progress-bar"><div class="progress" id="progress"></div></div>
+  </section>
+</main>
+
+<footer>
+  <div class="card">© Murad Hasan Hridoy</div>
+</footer>
+
+<script>
+// ===== Profile Picture Flip =====
+const mainProfilePic = document.getElementById('mainProfilePic');
+let profileToggle = false; // false = original, true = alternate
+mainProfilePic.addEventListener('click', () => {
+  mainProfilePic.style.transform = "rotateY(180deg)";
+  setTimeout(() => {
+    mainProfilePic.src = profileToggle ? "MURAD HASAN HRIDOY.jpg" : "MH2 IT CENTER.jpg";
+    profileToggle = !profileToggle;
+    mainProfilePic.style.transform = "rotateY(0deg)";
+  }, 350);
+});
+
+// ===== Profile Card Flip =====
+const profileContainer = document.getElementById('profileContainer');
+const loginCard = profileContainer.querySelector('.login-card');
+
+profileContainer.addEventListener('click', () => {
+  profileContainer.classList.add('flip');
+});
+
+loginCard.addEventListener('click', e => e.stopPropagation());
+
+document.body.addEventListener('click', e => {
+  if(!profileContainer.contains(e.target)){
+    profileContainer.classList.remove('flip');
+  }
+});
+
+// ===== Matrix Rain Effect =====
+const canvas = document.getElementById("matrix");
+const ctx = canvas.getContext ? canvas.getContext("2d") : null;
+function resizeCanvas(){
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+let letters = "MHHRIDOY";
+let fontSize = 14;
+let columns = Math.floor(canvas.width / fontSize);
+let drops = new Array(columns).fill(1);
+
+function drawMatrix() {
+  if(!ctx) return;
+  ctx.fillStyle = "rgba(0,0,0,0.08)";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "#0F0";
+  ctx.font = fontSize + "px monospace";
+
+  for(let i = 0; i < drops.length; i++) {
+    const text = letters.charAt(Math.floor(Math.random() * letters.length));
+    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+    if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+    drops[i]++;
+  }
+}
+setInterval(() => {
+  // keep drops length updated on resize
+  columns = Math.floor(canvas.width / fontSize);
+  if(columns !== drops.length) drops = new Array(columns).fill(1);
+  drawMatrix();
+}, 35);
+
+// ===== Simple chat functions for both chats =====
+function appendMessage(container, text, className) {
+  const msg = document.createElement('div');
+  msg.className = 'message ' + className;
+  msg.innerHTML = text;
+  container.appendChild(msg);
+  container.scrollTop = container.scrollHeight;
+}
+
+// MHH AI (left chat)
+const chatBody = document.getElementById('chatBody');
+function sendMessage(){
+  const input = document.getElementById('userInput');
+  const text = input.value.trim();
+  if(!text) return;
+  appendMessage(chatBody, text, 'user');
+  input.value = '';
+  // Very small simulated AI reply logic (preserves your original phrases)
+  setTimeout(() => {
+    const t = text.toLowerCase();
+    if(t.includes("venom")) appendMessage(chatBody, "Yes Boss 👋", 'bot');
+    else if(t.includes("hi") || t.includes("hello")) appendMessage(chatBody, "Who can I help you?", 'bot');
+    else if(t.includes("time")) appendMessage(chatBody, "The time is " + new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}), 'bot');
+    else if(t.includes("date")) {
+      const d = new Date();
+      const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+      appendMessage(chatBody, `Today is ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`, 'bot');
+    } else {
+      appendMessage(chatBody, "⚡ MHH AI Ready to chat!", 'bot');
+    }
+  }, 500);
+}
+
+// Mira Chat (right chat)
+const miraContainer = document.getElementById('chatContainer');
+function sendMiraMessage(){
+  const input = document.getElementById('miraInput');
+  const text = input.value.trim();
+  if(!text) return;
+  // user message
+  const userMsg = document.createElement('div');
+  userMsg.className = 'message user-message';
+  userMsg.textContent = text;
+  miraContainer.appendChild(userMsg);
+  miraContainer.scrollTop = miraContainer.scrollHeight;
+  input.value = '';
+  // AI reply
+  setTimeout(() => {
+    const aiMsg = document.createElement('div');
+    aiMsg.className = 'message ai-message';
+    aiMsg.innerHTML = `Mira says: I received "${text}".`;
+    miraContainer.appendChild(aiMsg);
+    miraContainer.scrollTop = miraContainer.scrollHeight;
+  }, 600);
+}
+
+// ===== MH Portal Terminal logic =====
+const portalTerm = document.getElementById('portalTermContent');
+const portalIP = document.getElementById('portalIP');
+const portalUptime = document.getElementById('portalUptime');
+const portalEntropy = document.getElementById('portalEntropy');
+
+let portalStarted = Date.now();
+
+function randIP() {
+  return [
+    10 + Math.floor(Math.random()*200),
+    Math.floor(Math.random()*256),
+    Math.floor(Math.random()*256),
+    Math.floor(Math.random()*256)
+  ].join('.');
+}
+
+portalIP.textContent = randIP();
+
+setInterval(() => {
+  const t = Math.floor((Date.now() - portalStarted) / 1000);
+  const h = String(Math.floor(t/3600)).padStart(2,'0');
+  const m = String(Math.floor((t%3600)/60)).padStart(2,'0');
+  const s = String(t%60).padStart(2,'0');
+  portalUptime.textContent = `${h}:${m}:${s}`;
+  portalEntropy.textContent = (37 + Math.floor(Math.random()*34)) + '%';
+}, 1000);
+
+function writePortal(line, speed=12){
+  return new Promise(resolve => {
+    const row = document.createElement('div');
+    portalTerm.appendChild(row);
+    let i = 0;
+    const timer = setInterval(() => {
+      row.textContent = line.slice(0, ++i);
+      portalTerm.scrollTop = portalTerm.scrollHeight;
+      if(i >= line.length){
+        clearInterval(timer);
+        resolve();
+      }
+    }, speed);
+  });
+}
+
+async function runPortalDiagnostics(){
+  await writePortal("sudo ./diagnostics --deep-scan");
+  await writePortal("[OK] CPU Vector: AVX2 | Mem Integrity | I/O Channels");
+  await writePortal("[+] Probing open ports: 22,80,443,3000");
+  await writePortal("[✓] No anomalies found. Deploying shields…");
+  await writePortal("Done. Stay vigilant.");
+}
+
+document.getElementById('portalRun').addEventListener('click', runPortalDiagnostics);
+document.getElementById('portalClear').addEventListener('click', () => { portalTerm.innerHTML = ''; });
+
+// ===== Password strength widget (basic) =====
+const pwd = document.getElementById('pwd');
+const bar = document.getElementById('bar');
+const strengthText = document.getElementById('strength');
+const entropyText = document.getElementById('entropy');
+const crackText = document.getElementById('crack');
+const unlock = document.getElementById('unlock');
+
+function estimatePassword(str){
+  // very simple heuristic: length + variety
+  let score = 0;
+  if(!str) return {score:0, bits:0, crack:'—'};
+  score += Math.min(40, str.length * 2);
+  if(/[a-z]/.test(str)) score += 10;
+  if(/[A-Z]/.test(str)) score += 10;
+  if(/[0-9]/.test(str)) score += 10;
+  if(/[^a-zA-Z0-9]/.test(str)) score += 20;
+  const bits = Math.round(Math.min(128, str.length * ( (/[a-z]/.test(str) ? 2 : 0) + (/[A-Z]/.test(str) ? 2 : 0) + (/[0-9]/.test(str) ? 2 : 0) + (/[^a-zA-Z0-9]/.test(str) ? 3 : 0))));
+  let crack = 'instant';
+  if(bits > 80) crack = 'centuries';
+  else if(bits > 60) crack = 'years';
+  else if(bits > 40) crack = 'days';
+  else if(bits > 20) crack = 'hours';
+  return {score: Math.min(100, score), bits, crack};
+}
+
+pwd.addEventListener('input', () => {
+  const val = pwd.value;
+  const res = estimatePassword(val);
+  bar.style.width = res.score + '%';
+  strengthText.textContent = res.score > 80 ? 'Strong' : res.score > 50 ? 'Medium' : 'Weak';
+  entropyText.textContent = res.bits;
+  crackText.textContent = res.crack;
+  unlock.style.opacity = res.score > 85 ? 1 : 0;
+});
+
+document.getElementById('toggle').addEventListener('click', () => {
+  pwd.type = pwd.type === 'password' ? 'text' : 'password';
+});
+document.getElementById('clear').addEventListener('click', () => {
+  pwd.value = '';
+  pwd.dispatchEvent(new Event('input'));
+});
+document.getElementById('generate').addEventListener('click', () => {
+  const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-+=[]{}|;:,.<>?";
+  let out = '';
+  for(let i=0;i<16;i++) out += chars.charAt(Math.floor(Math.random()*chars.length));
+  pwd.value = out;
+  pwd.dispatchEvent(new Event('input'));
+});
+document.getElementById('okBtn').addEventListener('click', () => {
+  const res = estimatePassword(pwd.value);
+  document.getElementById('finalMessage').textContent = res.score > 70 ? 'Password OK' : 'Weak Password!';
+});
+
+// small accessibility: press Enter in main chat input
+document.getElementById('userInput').addEventListener('keydown', (e) => { if(e.key === 'Enter') sendMessage(); });
+
+</script>
+</body>
+</html>
